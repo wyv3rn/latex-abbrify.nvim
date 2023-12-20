@@ -15,8 +15,8 @@ Do not expect it to work yet!
 LaTeXAbbrify scans your LaTeX workspace for acronym definitions and generates built-in [abbreviations](https://neovim.io/doc/user/map.html#abbreviation) for quick insertion in insert mode.
 Both `acro`- and `acronym`-style definitions are supported, for example:
 
-* `\DeclareAcronym{VoIP}{short=VoIP, long=Voice over IP}` when using the `acro` package.
-* `\acrodef{VoIP}{Voice over IP}` when using the `acronym` package. 
+    - `\DeclareAcronym{VoIP}{short=VoIP, long=Voice over IP}` when using the `acro` package.
+    - `\acrodef{VoIP}{Voice over IP}` when using the `acronym` package.
 
 - **Effortless Acronym Usage**:
 Instead of typing out entire acronyms repeatedly (for example, `\ac{VoIP}`), simply use the generated abbreviations to save time and reduce typing errors.
@@ -26,7 +26,7 @@ That is, typing `VoIP` in insert mode is automatically expanded to `\ac{VoIP}` a
 
 ```vim
 {
-    'wyv3rn/latex-abbrify',
+    'wyv3rn/latex-abbrify.nvim',
     config = function()
         require('latex-abbrify').setup()
     end

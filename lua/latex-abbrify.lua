@@ -23,8 +23,7 @@ local function main()
 
     for _, file_path in ipairs(tex_files) do
         for _, acronym in ipairs(extract_acronym_definitions(file_path)) do
-            local abbreviation_cmd = "iab " .. acronym .. " \\ac{" .. acronym .. "}"
-            print(abbreviation_cmd)
+            local abbreviation_cmd = "iabbrev <buffer> " .. acronym .. " \\ac{" .. acronym .. "}"
             vim.cmd(abbreviation_cmd)
         end
     end
@@ -33,8 +32,13 @@ end
 function M.setup()
     local augroup = vim.api.nvim_create_augroup("LaTeXAbbrify", { clear = true })
     vim.api.nvim_create_autocmd(
-        "VimEnter",
-        { group = augroup, desc = "LaTeX abbrify!", once = true, callback = main }
+        { "BufEnter", "BufWinEnter" },
+        {
+            group = augroup,
+            desc = "LaTeX abbrify!",
+            pattern = { "*.tex" },
+            callback = main,
+        }
     )
 end
 

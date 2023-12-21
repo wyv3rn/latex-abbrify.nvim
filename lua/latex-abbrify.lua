@@ -19,18 +19,25 @@ local function extract_acronym_definitions(file_path)
 end
 
 local function main()
+    -- TODO some clever caching would be nice
     local tex_files = get_tex_files()
 
     for _, file_path in ipairs(tex_files) do
         for _, acronym in ipairs(extract_acronym_definitions(file_path)) do
-            local abbreviation_cmd = "iabbrev <buffer> " .. acronym .. " \\ac{" .. acronym .. "}"
-            vim.cmd(abbreviation_cmd)
+            local iabbrev_cmd = "iabbrev <buffer>"
+            local acronym_plural = acronym .. "s"
+            local ac = "\\ac{" .. acronym .. "}"
+            local acp = "\\acp{" .. acronym .. "}"
+
+            vim.cmd(iabbrev_cmd .. " " .. acronym .. " " .. ac)
+            vim.cmd(iabbrev_cmd .. " " .. acronym_plural .. " " .. acp)
         end
     end
 end
 
 function M.setup()
     local augroup = vim.api.nvim_create_augroup("LaTeXAbbrify", { clear = true })
+    -- TODO also on save
     vim.api.nvim_create_autocmd(
         { "BufEnter", "BufWinEnter" },
         {

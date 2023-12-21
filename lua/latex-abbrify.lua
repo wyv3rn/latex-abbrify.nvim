@@ -69,16 +69,7 @@ function M.setup()
 end
 
 function M.acronym_iter()
-    local as_array = {}
-    for acronym, _ in pairs(M.acronyms) do
-        table.insert(as_array, acronym)
-    end
-    local i = 0
-    local n = #as_array
-    return function()
-        i = i + 1
-        if i <= n then return as_array[i] end
-    end
+    return next, M.acronyms, nil
 end
 
 return M

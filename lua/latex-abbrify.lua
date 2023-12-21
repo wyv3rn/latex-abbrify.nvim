@@ -29,6 +29,11 @@ local function set_abbreviations()
     end
 end
 
+local function handle_write()
+    extract_acronym_definitions(vim.fn.expand("%"))
+    set_abbreviations()
+end
+
 local function initialize()
     M.scan_count = M.scan_count + 1
     local tex_files = get_tex_files()
@@ -40,15 +45,25 @@ end
 
 function M.setup()
     local augroup = vim.api.nvim_create_augroup("LaTeXAbbrify", { clear = true })
-    -- TODO also on save
+
     vim.api.nvim_create_autocmd(
         { "BufEnter" },
         {
             group = augroup,
-            desc = "LaTeX abbrify!",
+            desc = "LaTeX abbrify init",
             pattern = { "*.tex" },
             callback = initialize,
             once = true,
+        }
+    )
+
+    vim.api.nvim_create_autocmd(
+        { "BufWritePost" },
+        {
+            group = augroup,
+            desc = "LaTeX abbrify update",
+            pattern = { "*.tex" },
+            callback = handle_write,
         }
     )
 end

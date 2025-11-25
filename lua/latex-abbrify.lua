@@ -8,10 +8,14 @@ local function get_tex_files()
 end
 
 local function extract_acronym_definitions(file_path)
+   -- TODO "-" not supported in abbreviations?
+   local acro_re = "{([^{}%-]*)}"
+   local def_cmds = { "DeclareAcronym", "acro", "acrodef" }
    for line in io.lines(file_path) do
-      -- TODO "-" not supported in abbreviations?
-      for acronym in line:gmatch("\\DeclareAcronym{([^{}%-]*)}") do
-         M.acronyms[acronym] = true
+      for _, def_cmd in ipairs(def_cmds) do
+         for acronym in line:gmatch("\\" .. def_cmd .. acro_re) do
+            M.acronyms[acronym] = true
+         end
       end
    end
 end
